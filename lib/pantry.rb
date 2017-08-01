@@ -17,6 +17,7 @@ class Pantry
     unless @stock[ingredient]
       @stock.merge!(ingredient => quantity)
     else
+      @stock[ingredient] += quantity
     end
   end
 
