@@ -190,10 +190,27 @@ class PantryTest < Minitest::Test
     pan.restock("Brine", 40)
     pan.restock("Raw nuts", 20)
     pan.restock("Salt", 20)
-    
+
     hash = {"Brine Shot"=>4, "Peanuts"=>2}
 
     assert_equal hash, pan.how_many_can_i_make
   end
+
+  def test_convert_units_working_for_wonky_numbers
+    r = Recipe.new("Spicy Cheese Pizza")
+    r.add_ingredient("Cayenne Pepper", 1.025)
+    r.add_ingredient("Cheese", 75)
+    r.add_ingredient("Flour", 550)
+
+    pan = Pantry.new
+
+    hash = {"Cayenne Pepper" => [{quantity: 25, units: "Milli-Units"},
+                                {quantity: 1, units: "Universal Units"}],
+            "Cheese"         => [{quantity: 75, units: "Universal Units"}],
+            "Flour"          => [{quantity: 5, units: "Centi-Units"},
+                                {quantity: 50, units: "Universal Units"}]}
+
+    assert_equal hash, pan.convert_units(r)
+    end
 
 end

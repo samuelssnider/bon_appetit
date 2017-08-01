@@ -32,7 +32,7 @@ class Pantry
     converted_ingreditent_units
   end
 
-  def convert_unit(quantity)
+  def convert_unit(quantity, hash = Hash.new(0))
     if quantity < 1.0
       unit = "Milli-Units"
       quantity *= 1000.0
@@ -40,9 +40,16 @@ class Pantry
       unit = "Universal Units"
     else
       unit = "Centi-Units"
-      quantity /= 100.0
+      quantity /= 100
     end
-    {quantity: quantity, units: unit}
+    split = (quantity % 1.0).round(3)
+    if split == 0
+      hash.merge!({quantity: quantity, units: unit})
+    else
+      hash.merge!({quantity: quantity - split, units: unit})
+      convert_unit(split, hash)
+    end
+    hash
   end
 
   def add_to_cookbook(recipe)
