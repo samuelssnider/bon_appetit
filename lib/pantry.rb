@@ -49,7 +49,7 @@ class Pantry
       array << {quantity: quantity, units: unit}
     else
       unless unit == "Centi-Units"
-        array << {quantity: quantity.to_i, units: unit}
+        array.unshift({quantity: quantity.to_i, units: unit})
         convert_unit(split, array)
       else
         array << {quantity: quantity.to_i, units: unit}
