@@ -55,6 +55,7 @@ class PantryTest < Minitest::Test
   end
 
   def test_convert_units
+    skip
     pan = Pantry.new
     r = Recipe.new("Spicy Cheese Pizza")
     r.add_ingredient("Cayenne Pepper", 0.025)
