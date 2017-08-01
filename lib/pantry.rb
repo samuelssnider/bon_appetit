@@ -30,11 +30,10 @@ class Pantry
   end
 
   def convert_unit(quantity)
-    case quantity
-    when quantity < 1.0
+    if quantity < 1.0
       unit = "Milli-Units"
-      quantiity *= 1000.0
-    when quantity >= 1.0 && quantity <= 100.0
+      quantity *= 1000.0
+    elsif quantity >= 1.0 && quantity <= 100.0
       unit = "Universal Units"
     else
       unit = "Centi-Units"
