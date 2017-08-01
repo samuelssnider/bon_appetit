@@ -1,3 +1,4 @@
+require 'pry'
 class Pantry
   attr_reader :stock,
               :cook_book
@@ -49,13 +50,29 @@ class Pantry
   end
 
   def what_can_i_make
+    can_make.map {|makeable| makeable.name}
+  end
+
+  def can_make
     @cook_book.find_all do |recipe|
       recipe.ingredients.all? do |ingredient|
-        # binding.pry
-        stock[ingredient[0]] >= recipe.amount_required(ingredient[0])
+        stock[ingredient[0]] >= recipe.amount_required(ingredient[0]) if stock[ingredient[0]]
       end
-    end.map {|makeable| makeable.name}
+    end
   end
+
+  def how_many_can_i_make
+    recipes = can_make
+    how_many = Hash.new
+    recipes.each do |recipie|
+      most = recipie.ingredients.map do |ingredient|
+        mosts = @stock[ingredient[0]] / recipie.amount_required(ingredient[0]) if @stock[ingredient[0]]
+      end
+      how_many.merge!(recipie.name => most.min_by {|most| most})
+    end
+    how_many
+  end
+
 
 
 end
