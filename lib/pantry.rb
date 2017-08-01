@@ -49,15 +49,12 @@ class Pantry
   end
 
   def what_can_i_make
-    makeables = @cook_book.find_all do |recipe|
+    @cook_book.find_all do |recipe|
       recipe.ingredients.all? do |ingredient|
         # binding.pry
         stock[ingredient[0]] >= recipe.amount_required(ingredient[0])
       end
-    end
-    makeables.map do |makeable|
-      makeable.name
-    end
+    end.map {|makeable| makeable.name}
   end
 
 
